@@ -2,36 +2,40 @@ push!(LOAD_PATH, "../../Exercism/julia/primes/src/")
 using YA_PRIMES
 
 function consecutive_prime_sum(n::T) where {T <: Integer}
-  primes = Primes{T}(n)
-  m = length(primes)
+  limit = T(log(n) ÷ log(10)) ÷ 2 + 2 # heuristic ?
+  primes = Primes{T}(10^limit)
+  #
+  # compute all the sum starting from 1st prime number
+  # as the sum and the number of terms need to be maximize start scanning by
+  # last candidate prime sum (downto)
+  #
+  max_sum = zero(T)
+  sum_primes = [zero(T)]
 
-  max_psum, pfrom, len = -1, -1, 1 # !
-  start, csum = 1, -1
-
-  while start < m - len
-    p = len
-    while start + p - 1 ≤ m
-      csum = sum(primes._v[start:start + p - 1])
-      csum > n && break
-      p > len && csum > max_psum && isprime(csum) && ((max_psum, pfrom, len) = (csum, start, p))
-      p += 1
-    end
-    start += 1
+  for p ∈ primes
+    push!(sum_primes, sum_primes[end] + p)
+    sum_primes[end] ≥ n && break
   end
 
-  (max_psum, v(primes)[pfrom:pfrom + len - 1], len)
+  m = T(length(sum_primes))
+  start_ix = one(T)
+  nterms = one(T)
+
+  for ix ∈ one(T):m
+    for jx ∈ m:T(-1):(ix + nterms)
+      psum = sum_primes[jx] - sum_primes[ix]
+
+      if (jx - ix) > nterms && isprime(psum)  #
+        psum > n && continue
+        max_sum, start_ix, nterms = psum, ix, jx - ix
+      end
+    end
+  end
+
+  (max_sum, v(primes)[start_ix:start_ix + nterms - 1], nterms)
 end
 
-
-
-
-# julia> include("./consec-primes-sum.jl")
-# consecutive_prime_sum (generic function with 1 method)
-
-# julia> @time consecutive_prime_sum(1_000)
-#   0.000526 seconds (4.83 k allocations: 870.641 KiB)
-# (953, [7, 11, 13, 17, 19, 23, 29, 31, 37, 41  …  47, 53, 59, 61, 67, 71, 73, 79, 83, 89], 21)
-
+# ---------------------- A first benchmark - too slow!
 # julia> @time consective_prime_sum(10_000)
 #   0.008910 seconds (49.92 k allocations: 15.661 MiB)
 # (9521, [3, 5, 7, 11, 13, 17, 19, 23, 29, 31  …  269, 271, 277, 281, 283, 293, 307, 311, 313, 317], 65)
@@ -53,15 +57,7 @@ end
 # (4975457, [2, 3, 5, 7, 11, 13, 17, 19, 23, 29  …  9203, 9209, 9221, 9227, 9239, 9241, 9257, 9277, 9281, 9283], 1150)
 
 
-# ----------------------
-# julia> @time consecutive_prime_sum(100)
-#   0.000014 seconds (66 allocations: 8.344 KiB)
-# (41, [2, 3, 5, 7, 11, 13], 6)
-
-# julia> @time consecutive_prime_sum(1_000)
-#   0.000038 seconds (372 allocations: 83.828 KiB)
-# (953, [7, 11, 13, 17, 19, 23, 29, 31, 37, 41  …  47, 53, 59, 61, 67, 71, 73, 79, 83, 89], 21)
-
+# ---------------------- A second benchmark - still too slow!
 # julia> @time consecutive_prime_sum(10_000)
 #   0.000316 seconds (1.52 k allocations: 848.375 KiB)
 # (9521, [3, 5, 7, 11, 13, 17, 19, 23, 29, 31  …  269, 271, 277, 281, 283, 293, 307, 311, 313, 317], 65)
@@ -82,7 +78,6 @@ end
 #  20.069132 seconds (11.56 M allocations: 202.315 GiB, 7.09% gc time)
 # (99819619, [7, 11, 13, 17, 19, 23, 29, 31, 37, 41  …  45061, 45077, 45083, 45119, 45121, 45127, 45131, 45137, 45139, 45161], 4685)
 
-
 # julia> @time consecutive_prime_sum(10_000_000)
 #   0.644315 seconds (675.16 k allocations: 8.029 GiB, 14.15% gc time)
 # (9951191, [5, 7, 11, 13, 17, 19, 23, 29, 31, 37  …  13309, 13313, 13327, 13331, 13337, 13339, 13367, 13381, 13397, 13399], 1587)
@@ -90,3 +85,7 @@ end
 # julia> @time consecutive_prime_sum(100_000_000)
 #  18.991867 seconds (11.56 M allocations: 202.313 GiB, 6.90% gc time)
 # (99819619, [7, 11, 13, 17, 19, 23, 29, 31, 37, 41  …  45061, 45077, 45083, 45119, 45121, 45127, 45131, 45137, 45139, 45161], 4685)
+
+# ---------------------- A better benchmark (more pruning)
+
+# cf. README for better benchmark
