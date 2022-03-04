@@ -19,4 +19,12 @@ Solutions in
   - `Javascript`
 
 <hr />
+
+For julia, testing can be called as follows (assuming a project was set up) from current dir. `Projects/Euler/Lexicographic_permutations`:
+
+> julia --project=.. runtests-lp.jl  # for lexicographic-perms.jl
+
+> julia --project=.. runtests.lpe.jl # for lexicographic-perms-exp.jl
+
+
 <p><sub><em>April-May 2021 Corto Inc</sub></em></p>

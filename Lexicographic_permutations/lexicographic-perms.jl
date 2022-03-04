@@ -4,14 +4,11 @@ const VVT = Vector{VT}
 
 millionnth(coll::VT) = all_perms(coll::VT, 1_000_000)[end]
 
-
 function all_perms(coll::VT)::VVT
   length(coll) == 0 && return [[]]
   length(coll) == 1 && return [coll]
   length(coll) == 2 && return [coll, coll |> reverse]
-
-  # length of coll ≥ 3
-  perms = VVT([])
+  perms = VVT([])   # length of coll ≥ 3
 
   for d ∈ coll
     coll_d = filter(x -> x != d, coll)
@@ -28,9 +25,7 @@ function all_perms(coll::VT, limit)::VVT
   length(coll) == 2 && return [coll, coll |> reverse]
 
   limit == 0 && return [[]]
-
-  # length of coll ≥ 3
-  perms = VVT([])
+   perms = VVT([]) # length of coll ≥ 3
 
   for d ∈ coll
     coll_d = filter(x -> x != d, coll)
@@ -40,7 +35,6 @@ function all_perms(coll::VT, limit)::VVT
 
   return perms
 end
-
 
 function prepend_all!(item, perms::VVT)::VVT
   for perm ∈ perms

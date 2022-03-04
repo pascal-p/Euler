@@ -77,16 +77,6 @@ end
   @test all_perms(collect(0:6)) |> length == 5040
 end
 
-@testset "#all_perms_nr" begin
-  @test all_perms_nr(10, 699_999)   == "1938246570"
-  @test all_perms_nr(10, 899_999)   == "2536987410"
-  @test all_perms_nr(10, 900_000)   == "2537014689"
-  @test all_perms_nr(10, 999_999)   == "2783915460"
-  @test all_perms_nr(10, 1_000_000) == "2783915604"
-  @test all_perms_nr(10, 2_000_000) == "5468731209"
-  @test all_perms_nr(10, 3_000_000) == "8241703569"
-end
-
 @time @testset "#all_perms of 10 digits => 10!" begin
   # 10! ≡ 3_628_800
   @test_skip all_perms(collect(0:9)) |> length == 3_628_800
@@ -107,25 +97,11 @@ end
 # 169.726583 seconds (284.85 M allocations: 31.599 GiB, 46.52% gc time, 1.47% compilation time)
 #
 
-@time @testset "1_000_000-th permutation of 10 digits" begin
-  @test_skip all_perms_nr(10, 1_000_000) == "2783915604"
-end
-
-@time @testset "2_000_000-th permutation of 10 digits" begin
-  @test_skip all_perms_nr(10, 2_000_000) == "5468731209"
-end
-
-@time @testset "3_000_000-th permutation of 10 digits" begin
-  @test_skip all_perms_nr(10, 3_000_000) == "8241703569"
-end
-
-
 # way too long...
 # @time @testset "#all_perms of 12 digits => 12!" begin
 #   # 12! ≡ 479_001_600
 #   @test_skip all_perms(collect(0:11)) |> length == 479_001_600
 # end
-
 
 # @time @testset "millionnth permutation of 0..9" begin
 #   @test millionnth(collect(0:9)) == [9, 8, 7, 6, 5, 4, 3, 2, 1, 0]

@@ -1,0 +1,7 @@
+name = "Euler"
+uuid = "21405e91-9dee-4fb6-999a-3c6432d829d1"
+authors = ["Pascal P <lacsap_666@yahoo.fr>"]
+version = "0.1.0"
+
+[deps]
+Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
