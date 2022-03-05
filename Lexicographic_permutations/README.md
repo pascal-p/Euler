@@ -26,5 +26,10 @@ For julia, testing can be called as follows (assuming a project was set up) from
 
 > julia --project=.. runtests.lpe.jl # for lexicographic-perms-exp.jl
 
+```julia-repl
+@time all_perms_nr(10, 1_000_000)
+  0.004265 seconds (25 allocations: 1.297 KiB)
+"2783915604"
+```
 
 <p><sub><em>April-May 2021 Corto Inc</sub></em></p>
