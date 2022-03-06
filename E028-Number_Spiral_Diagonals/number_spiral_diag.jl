@@ -4,6 +4,8 @@ const T = UInt
    number_spiral_diagonal(n::T)::T
 
 Calculate the sum of the 2 diagonals given integer n, which represents a square (matrix)
+Euler Problem 28 - https://projecteuler.net/problem=28
+
 Example:
 21 22 23 24 25
   \\       /
