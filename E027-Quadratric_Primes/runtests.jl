@@ -21,9 +21,9 @@ end
 
   @test quadratic_primes(1000) == (-61, 971, -59231, 71)
 
-  # @time quadratic_primes_bf(1000)   # 206ms
-  # 0.206754 seconds (4 allocations: 5.964 MiB)
-  # (-61, 971, -59231, 71)
+  @test quadratic_primes(2000) == (-79, 1601, -126479, 80)
+
+  # @test quadratic_primes(10_000) == (-79, 1601, -126479, 80)
 end
 
 @testset "#quadratic_primes_bf" begin
