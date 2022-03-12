@@ -1,27 +1,68 @@
-function quadratic_primes(range::T) where {T <: Integer}
-  aₘ, bₘ, nₘ = zero(T), zero(T), zero(T)
-  primes = sieve(range * range * 4)
+"""
+  n² + a⨱n + b, where |a| < 1000 and |b|  ≤ 1000
+  max will be n*n + 999n + 1000
 
-  for a ∈ -range+1:range-1, b ∈ -range:range
-    n = zero(T)
-    while is_prime(primes, abs(n * n + a * n + b)); n += 1; end
+  as we get all primes form n =0 upto a limit, we have:
 
-    if n > nₘ
-      nₘ = n
-      aₘ = a
-      bₘ = b
+  n = 0 ⟹ n² + a⨱n + b = b,  b must be a prime
+  n = 1 ⟹ n² + a⨱n + b = 1 + a + b, 2 cases:
+    (i) b = 2  ⟹ 3 + a must be prime ⟹ a is even
+    (ii) b > 2 ⟹ (1 + b) + a must be prime ⟹ a is odd (as 1 + b is even)
+"""
+
+function quadratic_primes(limit::T) where {T <: Integer}
+  primes = sieve((2 * (limit - 1) -1) * (2 * limit - 1))
+  @inline function is_prime(candidate::T)::Bool # where {T <: Integer}
+    ix = one(T)
+    while primes[ix] < candidate; ix += 1; end
+    ix ≤ length(primes) ? primes[ix] == candidate : false
+  end
+
+  a_b_n = (zero(T), zero(T), zero(T))
+  bprimes = sieve(limit)
+  for a ∈ -limit+1:2:limit-1
+    for b ∈ bprimes[1]     # case (i)
+      n = zero(T)
+      while is_prime(abs(n * n + (a + 1) * n + b)); n += 1; end
+      n > a_b_n[end] && (a_b_n = (a + 1, b, n))
+    end
+
+    for b ∈ bprimes[2:end] # case (ii)
+      n = zero(T)
+      while is_prime(abs(n * n + a * n + b)); n += 1; end
+      n > a_b_n[end] && (a_b_n = (a, b, n))
     end
   end
 
-  (aₘ, bₘ, aₘ * bₘ)
+  (a_b_n[1:2]..., prod(a_b_n[1:2]), a_b_n[end])
 end
 
 
-function is_prime(primes::Vector{T}, candidate::T)::Bool where {T <: Integer}
-  ix = one(T)
-  while primes[ix] < candidate; ix += 1; end
-  ix ≤ length(primes) ? primes[ix] == candidate : false
+# "brute force"
+function quadratic_primes_bf(range::T) where {T <: Integer}
+  primes = sieve((2 * (range - 1) -1) * (2 * range - 1))
+  @inline function is_prime(candidate::T)::Bool
+    ix = one(T)
+    while primes[ix] < candidate; ix += 1; end
+    ix ≤ length(primes) ? primes[ix] == candidate : false
+  end
+
+  aₘ, bₘ, nₘ = zero(T), zero(T), zero(T)
+  for a ∈ -range+1:range-1, b ∈ -range:range
+    n = zero(T)
+    while is_prime(abs(n * n + a * n + b)); n += 1; end
+    n > nₘ && ((nₘ, aₘ, bₘ) = (n, a, b))
+  end
+
+  (aₘ, bₘ, aₘ * bₘ, nₘ)
 end
+
+
+# @inline function is_prime(primes::Vector{T}, candidate::T)::Bool where {T <: Integer}
+#   ix = one(T)
+#   while primes[ix] < candidate; ix += 1; end
+#   ix ≤ length(primes) ? primes[ix] == candidate : false
+# end
 
 
 function sieve(limit::T)::Vector{T} where {T <: Integer}

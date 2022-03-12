@@ -5,32 +5,52 @@ include("quadratic_primes.jl")
 const PRIMES_LT100 = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97]
 
 
+@testset "timing quadratic_primes / quadratic_primes_bf" begin
+  @test @time quadratic_primes(1000) == (-61, 971, -59231, 71)
+
+  @test @time quadratic_primes_bf(1000) == (-61, 971, -59231, 71)
+end
+
+
 @testset "#quadratic_primes" begin
-  @test quadratic_primes(200) == (-25, 197, -4925)
+  @test quadratic_primes(200) == (-25, 197, -4925, 53)
 
-  @test quadratic_primes(500) == (-41, 461, -18901)
+  @test quadratic_primes(500) == (-41, 461, -18901, 61)
 
-  @test quadratic_primes(800) == (-55, 797, -43835)
+  @test quadratic_primes(800) == (-55, 797, -43835, 68)
 
-  @test quadratic_primes(1000) == (-61, 971, -59231)
+  @test quadratic_primes(1000) == (-61, 971, -59231, 71)
 
-  # @time quadratic_primes(1000)
-  # 0.423695 seconds (4 allocations: 5.975 MiB)
-  # (-61, 971, -59231)
+  # @time quadratic_primes_bf(1000)   # 206ms
+  # 0.206754 seconds (4 allocations: 5.964 MiB)
+  # (-61, 971, -59231, 71)
 end
 
-@testset "#is_prime" begin
+@testset "#quadratic_primes_bf" begin
+  @test quadratic_primes_bf(200) == (-25, 197, -4925, 53)
 
-  @test is_prime(PRIMES_LT100, 11)
-  @test is_prime(PRIMES_LT100, 23)
-  @test is_prime(PRIMES_LT100, 47)
-  @test is_prime(PRIMES_LT100, 97)
+  @test quadratic_primes_bf(500) == (-41, 461, -18901, 61)
 
-  @test !is_prime(PRIMES_LT100, 32)
-  @test !is_prime(PRIMES_LT100, 64)
-  @test !is_prime(PRIMES_LT100, 21)
+  @test quadratic_primes_bf(800) == (-55, 797, -43835, 68)
 
+  @test quadratic_primes_bf(1000) == (-61, 971, -59231, 71)
+
+  # @time quadratic_primes_bf(1000)   # 206ms
+  # 0.206754 seconds (4 allocations: 5.964 MiB)
+  # (-61, 971, -59231, 71)
 end
+
+
+# @testset "#is_prime" begin
+#   @test is_prime(PRIMES_LT100, 11)
+#   @test is_prime(PRIMES_LT100, 23)
+#   @test is_prime(PRIMES_LT100, 47)
+#   @test is_prime(PRIMES_LT100, 97)
+
+#   @test !is_prime(PRIMES_LT100, 32)
+#   @test !is_prime(PRIMES_LT100, 64)
+#   @test !is_prime(PRIMES_LT100, 21)
+# end
 
 @testset "#sieve" begin
   @test sieve(100) == [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97]

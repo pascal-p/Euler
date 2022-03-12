@@ -9,7 +9,7 @@ It turns out that the formula will produce 40 primes for the consecutive integer
 
 The incredible formula n² - 79n + 1601 was discovered, which produces 80 primes for the consecutive values 0 ≤ n ≤ 79. The product of the coefficients, −79 and 1601, is −126479.
 
-Considering quadratics of the form: n² + a⨱n + b, where |a| < 1000 and |b|  ≤ 1000
+Considering quadratics of the form: n² + a⨱n + b, where |a| < 1000 and |b| ≤ 1000
 
 where |n| is the modulus/absolute value of n
 e.g. |11| = 11 and |-4|=4
