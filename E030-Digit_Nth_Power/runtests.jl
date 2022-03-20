@@ -2,16 +2,18 @@ using Test
 
 include("./digit_nth_power.jl")
 
-# @time digit_nth_power()
-
 @testset "#digit_nth_power()" begin
   @test digit_nth_power(2) == (0, 0)
   @test digit_nth_power(3) == (4, 1301)
   @test digit_nth_power(4) == (3, 19316)
   @test digit_nth_power(5) == (6, 443839)
+
+  @test digit_nth_power(6) == (1, 548834)
+  @test digit_nth_power(7) == (5, 40139604)
 end
 
-#
+# @time digit_nth_power(5; with_print=true)
+
 #  2:
 #  3: 153, 370, 371, 407
 #  4: 1634, 8208, 9474
@@ -43,7 +45,6 @@ end
 #      9^9 = 387_420_489    => need at least
 #  9 * 9^9 = 3_486_784_401  => 10 digits number
 # 10 * 9^9 = 3_874_204_890 / does not work as an upper bound
-
 
 # 2 :
 # 3 :

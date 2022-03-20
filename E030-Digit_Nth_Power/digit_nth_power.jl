@@ -1,3 +1,7 @@
+"""
+   E030 - Digit fifth powers
+"""
+
 const N = 9
 
 function digit_nth_power_range()
@@ -21,7 +25,7 @@ function digit_nth_power(n::T; with_print=false) where {T <: Integer}
 
   nfound, sum_ = 0, 0
   range_ = max(10, 10^(n-2)):9^(n+1)
-  with_print && println("\trange $(range_)")
+  with_print && println("range $(range_)")
 
   for num ∈ range_
     sa = fill(0, n+2) # number of digits
@@ -33,21 +37,21 @@ function digit_nth_power(n::T; with_print=false) where {T <: Integer}
     end
 
     if num == reduce((s, d) -> s += power[d+1], sa; init=0)
-      # found one...
-      nfound += 1
+      nfound += 1 # found one...
       sum_ += num
-      if with_print
-        repr = [string(d, "^", n) for d ∈ reverse(sa[1:end])] |> s -> join(s, " + ")
-
-        while repr[1] == '0' # starts with char. 0
-          repr = repr[6+length(string(n)):end]
-          # why 6? "0^8 + "
-          #         2 (for 0^) + len(str(8)) + 3 for " + " + 1
-        end
-        println("\t$(num) == $(repr)")
-      end
+      with_print && print_repr(sa, n, num)
     end
   end
 
   (nfound, sum_)
+end
+
+@inline function print_repr(sa, n, num)
+  repr = [string(d, "^", n) for d ∈ reverse(sa[1:end])] |> s -> join(s, " + ")
+  while repr[1] == '0' # starts with char. 0
+    repr = repr[6+length(string(n)):end]
+    # why 6? "0^8 + "
+    #         2 (for 0^) + len(str(8)) + 3 for " + " + 1
+  end
+  println("\t$(num) == $(repr)")
 end
