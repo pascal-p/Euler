@@ -22,6 +22,12 @@ Where 0.1(6) means 0.166666..., and has a 1-digit recurring cycle. It can be see
 Find the value of d < 1000 for which 1/d contains the longest recurring cycle in its decimal fraction part.
 """
 
+# NOTE: failed sometimes - ex:
+
+# #reciprocal_cycles: Test Failed at /home/pascal/Projects/Euler/E026-Recipocal_Cycles/runtests.jl:18
+#   Expression: reciprocal_cycles(900) == 887
+#    Evaluated: 0x000000000000003d == 887
+
 function reciprocal_cycles(n::T)::T
   rest = Vector{Int}(undef, n)
   len = zero(T)
@@ -46,7 +52,6 @@ function reciprocal_cycles(n::S)::T where S <: Integer
 end
 
 reciprocal_cycles(::Any) = throw(ArgumentError("Expecting a natural integer"))
-
 
 function reciprocal_cycles_with_dev(n::T)::Tuple{T, String}
   rest = Vector{Int}(undef, n)

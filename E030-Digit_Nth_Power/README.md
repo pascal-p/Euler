@@ -4,7 +4,6 @@
 
 ## Description
 
-
 Surprisingly there are only three numbers that can be written as the sum of fourth powers of their digits:
 
     1634 = 1⁴ + 6⁴ + 3⁴ + 4⁴
@@ -29,8 +28,8 @@ For julia, testing can be called as follows (assuming a project was set up) from
 > julia --project=.. runtests.jl
 
 ```julia-repl
-julia> # TODO
-
+julia> digit_nth_power(7)
+(5, 40139604)
 ```
 
 <p><sub><em>Mar 2022 Corto Inc</sub></em></p>
