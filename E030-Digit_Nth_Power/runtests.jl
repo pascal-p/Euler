@@ -13,6 +13,31 @@ include("./digit_nth_power.jl")
 end
 
 # @time digit_nth_power(5; with_print=true)
+# 0.068450 seconds (542.80 k allocations: 57.304 MiB, 19.13% gc time, 32.24% compilation time)
+
+#@testset "#digit_nth_power() - n ≥ 8" begin
+#  @time @test digit_nth_power(8) == (3, 137949578)
+#end
+# 16.053802 seconds (386.42 M allocations: 51.823 GiB, 1.69% gc time, 0.10% compilation time)
+
+# with heuristic
+#  case n: 2 m is: 344373768, num: 99999999 - lim: 335000000?
+#   9.181779 seconds (99.00 M allocations: 13.277 GiB, 16.99% gc time)
+# Test Summary:              | Pass  Total
+# #digit_nth_power() - n ≥ 8 |    1      1
+
+
+# @testset "#digit_nth_power() - n ≥ 9" begin
+#   @time @test digit_nth_power(9) == (4, 2066327172)
+# end
+# 152.697392 seconds (3.48 G allocations: 466.273 GiB, 1.46% gc time, 0.01% compilation time)
+
+# with heuristic
+# case n: 2 m is: 3486784401, num: 999999999 - lim: 3350000000?
+#  92.815585 seconds (990.00 M allocations: 132.769 GiB, 17.43% gc time)
+# Test Summary:              | Pass  Total
+# #digit_nth_power() - n ≥ 9 |    1      1
+
 
 #  2:
 #  3: 153, 370, 371, 407

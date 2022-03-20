@@ -18,13 +18,13 @@ function digit_nth_power_range()
 end
 
 function digit_nth_power(n::T; with_print=false) where {T <: Integer}
+  lim = min(9^(n+1), Int(10^n * 3.35)) # not such a great heuristic!
   power = fill(0, N+1)
   #     [0, 1, 4, 9, 16, 25, 36, 49, 64, 81]
   #  ix: 1  2  3  4   5   6   7   8   9  10
   for d ∈ 2:N+1; power[d] = (d-1)^n; end
-
   nfound, sum_ = 0, 0
-  range_ = max(10, 10^(n-2)):9^(n+1)
+  range_ = max(10, 10^(n-2)):lim
   with_print && println("range $(range_)")
 
   for num ∈ range_
@@ -35,11 +35,15 @@ function digit_nth_power(n::T; with_print=false) where {T <: Integer}
       sa[ix] = d
       ix += 1
     end
-
-    if num == reduce((s, d) -> s += power[d+1], sa; init=0)
+    m = reduce((s, d) -> s += power[d+1], sa;
+               init=0)
+    if num == m
       nfound += 1 # found one...
       sum_ += num
       with_print && print_repr(sa, n, num)
+    elseif m > lim
+      println(" case n: $(2) m is: $(m), num: $(num) - lim: $(lim)? ")
+      break
     end
   end
 
