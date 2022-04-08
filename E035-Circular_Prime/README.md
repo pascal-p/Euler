@@ -22,8 +22,8 @@ For julia, testing can be called as follows (assuming a project was set up) from
 > julia --project=.. runtests.jl
 
 ```julia-repl
-julia> # TODO
-
+julia> circular_primes(100)
+0x000000000000000d   # == 13
 ```
 
-<p><sub><em>Mar 2022 Corto Inc</sub></em></p>https://projecteuler.net/problem=34
+<p><sub><em>Apr 2022 Corto Inc</sub></em></p>https://projecteuler.net/problem=35
