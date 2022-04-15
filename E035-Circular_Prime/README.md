@@ -26,4 +26,4 @@ julia> circular_primes(100)
 0x000000000000000d   # == 13
 ```
 
-<p><sub><em>Apr 2022 Corto Inc</sub></em></p>https://projecteuler.net/problem=35
+<p><sub><em>Apr 2022 Corto Inc</sub></em></p>

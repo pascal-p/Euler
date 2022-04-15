@@ -20,8 +20,8 @@ For julia, testing can be called as follows (assuming a project was set up) from
 > julia --project=.. runtests.jl
 
 ```julia-repl
-julia> pandigital_prime(9)
-TODO
+julia> pandigital_prime(7)
+7652413
 ```
 
 <p><sub><em>Apr 2022 Corto Inc</sub></em></p>
