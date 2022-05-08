@@ -32,7 +32,7 @@ Find the thirteen adjacent digits in the 1000-digit number that have the greates
 <hr />
 
 Solutions in
-  - `Julia`
+  - `Julia Pluto notebook`
 
 <hr />
 
