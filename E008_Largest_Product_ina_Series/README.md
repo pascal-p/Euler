@@ -36,13 +36,9 @@ Solutions in
 
 <hr />
 
-For julia, testing can be called as follows (assuming a project was set up) from current dir. `Projects/Euler/E041-Pandigital_Prime`:
-
-> julia --project=.. runtests.jl
-
-```julia-repl
-julia> pandigital_prime(7)
-7652413
+```julia
+julia> largest_dp(SERIE1000, 13)
+23514624000
 ```
 
 <p><sub><em>May 2022 Corto Inc</sub></em></p>
